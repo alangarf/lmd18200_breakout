@@ -1,0 +1,436 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: (unknown), silkscreen, component side
+%%Creator: pcb-bin 1.99p
+%%CreationDate: Wed Dec  8 14:00:38 2004
+%%For: alan (Alan Garfield)
+%%LanguageLevel: 1
+%%Orientation: Portrait
+%%BoundingBox: -1 -1 172 130
+%%Pages: 0
+%%EndComments
+%%BeginProlog
+
+/PcbDict 200 dict def
+PcbDict begin
+PcbDict /DictMatrix matrix put
+
+% some constants
+/Black {0.0 mysetgray} def
+/White {1.0 mysetgray} def
+/TAN {0.207106781} def
+/MTAN {-0.207106781} def
+
+% draw a filled polygon
+% get (x,y)... and number of points from stack
+/PO {
+	/number exch def
+	newpath
+	moveto
+	number 1 sub { lineto } repeat
+	closepath fill stroke
+} def
+
+/P {
+% draw a pin-polygon,
+% get x, y and thickness from stack
+	/thickness exch def /y exch def /x exch def
+	gsave x y translate thickness thickness scale
+	0.5  MTAN
+	TAN  -0.5
+	MTAN -0.5
+	-0.5 MTAN
+	-0.5 TAN
+	MTAN 0.5
+	TAN  0.5
+	0.5  TAN
+	8 PO grestore
+} def
+
+/PV {
+% pin or via, x, y and thickness are on the stack
+	/drillinghole exch def /thickness exch def /y exch def /x exch def
+	x y thickness P
+% draw drilling hole
+	gsave White 0 setlinewidth
+   newpath x y drillinghole 2 div 0 360 arc closepath fill stroke
+   grestore
+} def
+
+/PVR {
+% pin or via, x, y and thickness are on the stack
+	/drillinghole exch def /thickness exch def /y exch def /x exch def
+	gsave 0 setlinewidth
+	newpath x y thickness 2 div 0 360 arc closepath fill stroke
+% draw drilling whole
+	White
+	newpath x y drillinghole 2 div 0 360 arc closepath fill stroke
+	grestore
+} def
+
+/PVSQ {
+% square pin or via, x, y and thickness are on the stack
+	/drillinghole exch def /thickness exch def /y exch def /x exch def
+	newpath x thickness 2 div sub y thickness 2 div sub moveto
+	thickness 0 rlineto 0 thickness rlineto
+	thickness neg 0 rlineto closepath fill stroke
+% draw drilling hole
+	gsave White 0 setlinewidth
+   newpath x y drillinghole 2 div 0 360 arc closepath fill stroke
+   grestore
+} def
+
+/DH {
+% drill helpher; x, y, hole, copper-thickness are on stack
+	/copper exch def /hole exch def /y exch def /x exch def
+   gsave copper setlinewidth
+   newpath x y hole copper add 2 div 0 360 arc closepath stroke
+   grestore
+} def
+
+/L {
+% line, get x1, y1, x2, y2 and thickness from stack
+	/thick exch def /y2 exch def /x2 exch def /y1 exch def /x1 exch def
+	gsave thick setlinewidth
+	x1 y1 moveto x2 y2 lineto stroke
+	grestore
+} def
+
+/CL {
+% line, get x1, y1, x2, y2 and thickness from stack
+	/thick exch def /y2 exch def /x2 exch def /y1 exch def /x1 exch def
+	gsave White thick setlinewidth
+	x1 y1 moveto x2 y2 lineto stroke
+	grestore
+} def
+
+/B {
+% filled box, get x1, y1, x2 and y2 from stack
+	/y2 exch def /x2 exch def /y1 exch def /x1 exch def
+	newpath
+	x1 y1 moveto x2 y1 lineto x2 y2 lineto x1 y2 lineto
+	closepath fill stroke
+} def
+
+/PA {
+% pad, same as line
+	L
+} def
+
+/A {
+% arc for elements, get x, y, width, height, thickness
+% startangle and delta-angle from stack
+  /delta exch def /start exch def /thickness exch def
+  /height exch def /width exch def /y exch def /x exch def
+% draw it
+	gsave thickness setlinewidth /save DictMatrix currentmatrix def
+% scaling is less then zero because the coord system has to be swapped
+	x y translate width neg height scale
+	0 0 1 start start delta add arc save setmatrix stroke
+	grestore
+} def
+
+/CA {
+% arc for elements, get x, y, width, height, thickness
+% startangle and delta-angle from stack
+  /delta exch def /start exch def /thickness exch def
+  /height exch def /width exch def /y exch def /x exch def
+% draw it
+	gsave White thickness setlinewidth /save DictMatrix currentmatrix def
+% scaling is less then zero because the coord system has to be swapped
+	x y translate width neg height scale
+	0 0 1 start start delta add arc save setmatrix stroke
+	grestore
+} def
+
+/CLRPV {
+% clears a pin/via for groundplane; x,y and thickness are on stack
+   /thickness exch def /y exch def /x exch def
+	gsave White x y thickness P grestore
+} def
+
+/CLRPVSQ {
+% clears a square pin, x,y and thickness are on stack
+	/thickness exch def /y exch def /x exch def
+   gsave White
+	newpath x thickness 2 div sub y thickness 2 div sub moveto
+	thickness 0 rlineto 0 thickness rlineto
+	thickness neg 0 rlineto closepath fill stroke
+	grestore
+} def
+
+/CLRPVR {
+% clears a round pin/via for groundplane; x,y and thickness are on the stack
+	/thickness exch def /y exch def /x exch def
+	gsave White 0 setlinewidth
+	newpath x y thickness 2 div 0 360 arc closepath fill stroke
+	grestore
+} def
+
+/CLRPA {
+% clear line, get x1, y1, x2, y2 and thickness from stack
+	/thick exch def /y2 exch def /x2 exch def /y1 exch def /x1 exch def
+	gsave White thick setlinewidth
+	x1 y1 moveto x2 y2 lineto stroke
+	grestore
+} def
+
+/CLRB {
+% cleared box, get x1, y1, x2 and y2 from stack
+	/y2 exch def /x2 exch def /y1 exch def /x1 exch def
+	gsave White newpath
+	x1 y1 moveto x2 y1 lineto x2 y2 lineto x1 y2 lineto
+	closepath fill stroke
+	grestore
+} def
+
+/FILL {
+% draw a filled rectangle for the ground plane
+% get x1, y1, x2 and y2 from stack
+	/y2 exch def /x2 exch def /y1 exch def /x1 exch def
+   gsave 0 setlinewidth
+	newpath
+	x1 y1 moveto x2 y1 lineto x2 y2 lineto x1 y2 lineto
+	closepath fill stroke
+   grestore
+} def
+
+/Outline {
+% outline, get x1, y1, x2 and y2 from stack
+	/y2 exch def /x2 exch def /y1 exch def /x1 exch def
+   gsave 0.175 setlinewidth
+	newpath
+	x1 y1 moveto x2 y1 lineto x2 y2 lineto x1 y2 lineto
+	closepath stroke
+   grestore
+} def
+
+/Alignment {
+% alignment targets, get x1, y1, x2, y2 and distance from stack
+	/dis exch def /y2 exch def /x2 exch def /y1 exch def /x1 exch def
+   gsave 0.175 setlinewidth
+   newpath x1 y1 dis add moveto
+      0 dis 2 mul neg rlineto
+      dis neg dis rmoveto
+      dis 2 mul 0 rlineto
+   stroke
+   newpath x1 y1 dis 0 90 arcn stroke
+   newpath x1 y2 dis sub moveto 0 dis rlineto dis 0 rlineto stroke
+   newpath x2 y2 dis sub moveto
+      0 2 dis mul rlineto
+      dis dup neg rmoveto
+      2 dis mul neg 0 rlineto   stroke
+   newpath x2 y1 dis add moveto 0 dis neg rlineto dis neg 0 rlineto stroke
+   grestore
+} def
+
+/mysetgray { setgray } def
+/mysetrgbcolor { setrgbcolor } def
+
+%%EndProlog
+%%BeginDefaults
+%%EndDefaults
+%%BeginSetup
+0.0 setlinewidth
+1 setlinecap
+Black
+%%EndSetup
+gsave White newpath
+-1 -1 moveto 172 -1 lineto 172 130 lineto -1 130 lineto
+closepath fill stroke grestore
+% PCBMIN(-40000,-40000), PCBMAX(197500,139500)
+% PCBOFFSET(0,0), PCBSCALE(1.00000)
+% PCBSTARTDATA --- do not remove ---
+gsave
+0.00072 0.00072 scale
+0 0 translate
+1.000 1.000 scale
+0 179500 translate
+1 -1 scale
+40000 40000 translate
+-40000 -40000 197500 139500 20000 Alignment
+82000 88000 200 200 1500 90 360 A
+82000 88000 2200 2200 1000 90 360 A
+76000 92000 76000 96000 400 L
+76000 96000 78000 96000 400 L
+79201 94000 80701 94000 400 L
+79201 96000 81201 96000 400 L
+79201 92000 79201 96000 400 L
+79201 92000 81201 92000 400 L
+82902 92000 82902 96000 400 L
+84402 92000 84902 92500 400 L
+84902 92500 84902 95500 400 L
+84402 96000 84902 95500 400 L
+82402 96000 84402 96000 400 L
+82402 92000 84402 92000 400 L
+86603 96000 87603 96000 400 L
+87103 92000 87103 96000 400 L
+86103 93000 87103 92000 400 L
+29000 54000 29000 94000 1000 L
+31000 54000 31000 94000 1000 L
+1000 54000 1000 94000 1000 L
+1000 94000 31000 94000 1000 L
+1000 54000 31000 54000 1000 L
+6500 99000 8000 99000 400 L
+6000 98500 6500 99000 400 L
+6000 95500 6000 98500 400 L
+6000 95500 6500 95000 400 L
+6500 95000 8000 95000 400 L
+9201 95500 9201 98500 400 L
+9201 95500 9701 95000 400 L
+9701 95000 10701 95000 400 L
+10701 95000 11201 95500 400 L
+11201 95500 11201 98500 400 L
+10701 99000 11201 98500 400 L
+9701 99000 10701 99000 400 L
+9201 98500 9701 99000 400 L
+12402 95000 12402 99000 400 L
+12402 95000 12402 95500 400 L
+12402 95500 14902 98000 400 L
+14902 95000 14902 99000 400 L
+16103 95000 16103 99000 400 L
+16103 95000 16103 95500 400 L
+16103 95500 18603 98000 400 L
+18603 95000 18603 99000 400 L
+19804 95500 20304 95000 400 L
+20304 95000 21304 95000 400 L
+21304 95000 21804 95500 400 L
+21804 95500 21804 98500 400 L
+21304 99000 21804 98500 400 L
+20304 99000 21304 99000 400 L
+19804 98500 20304 99000 400 L
+20304 97000 21804 97000 400 L
+53000 74000 20000 20000 1000 270 360 A
+39000 93000 39000 94500 400 L
+38500 95000 39000 94500 400 L
+35500 95000 38500 95000 400 L
+35500 95000 35000 94500 400 L
+35000 93000 35000 94500 400 L
+39000 90299 39000 91299 400 L
+35000 90799 39000 90799 400 L
+36000 91799 35000 90799 400 L
+132024 20992 141866 20992 1000 L
+141866 21386 141866 50913 1000 L
+132024 50913 141866 50913 1000 L
+132024 21386 132024 50913 1000 L
+135000 17000 135000 18500 400 L
+134500 19000 135000 18500 400 L
+131500 19000 134500 19000 400 L
+131500 19000 131000 18500 400 L
+131000 17000 131000 18500 400 L
+131500 15799 131000 15299 400 L
+131000 13799 131000 15299 400 L
+131000 13799 131500 13299 400 L
+131500 13299 132500 13299 400 L
+135000 15799 132500 13299 400 L
+135000 13299 135000 15799 400 L
+128000 11000 128000 52000 1000 L
+51000 52000 128000 52000 1000 L
+51000 11000 128000 11000 1000 L
+51000 11000 51000 52000 1000 L
+51000 16000 128000 16000 1000 L
+45000 19000 48500 19000 400 L
+48500 19000 49000 18500 400 L
+49000 17500 49000 18500 400 L
+49000 17500 48500 17000 400 L
+45000 17000 48500 17000 400 L
+49000 14299 49000 15299 400 L
+45000 14799 49000 14799 400 L
+46000 15799 45000 14799 400 L
+37134 51008 46976 51008 1000 L
+37134 21087 37134 50614 1000 L
+37134 21087 46976 21087 1000 L
+46976 21087 46976 50614 1000 L
+38000 17000 38000 18500 400 L
+37500 19000 38000 18500 400 L
+34500 19000 37500 19000 400 L
+34500 19000 34000 18500 400 L
+34000 17000 34000 18500 400 L
+34500 15799 34000 15299 400 L
+34000 14299 34000 15299 400 L
+34000 14299 34500 13799 400 L
+34500 13799 37500 13799 400 L
+38000 14299 37500 13799 400 L
+38000 14299 38000 15299 400 L
+37500 15799 38000 15299 400 L
+36000 13799 36000 15299 400 L
+95000 93000 155000 93000 2000 L
+155000 83000 155000 93000 2000 L
+95000 83000 155000 83000 2000 L
+95000 83000 95000 93000 2000 L
+105000 83000 105000 93000 1000 L
+95000 83000 105000 83000 1000 L
+136500 81000 138000 81000 400 L
+136000 80500 136500 81000 400 L
+136000 77500 136000 80500 400 L
+136000 77500 136500 77000 400 L
+136500 77000 138000 77000 400 L
+139201 77500 139201 80500 400 L
+139201 77500 139701 77000 400 L
+139701 77000 140701 77000 400 L
+140701 77000 141201 77500 400 L
+141201 77500 141201 80500 400 L
+140701 81000 141201 80500 400 L
+139701 81000 140701 81000 400 L
+139201 80500 139701 81000 400 L
+142402 77000 142402 81000 400 L
+142402 77000 142402 77500 400 L
+142402 77500 144902 80000 400 L
+144902 77000 144902 81000 400 L
+146103 77000 146103 81000 400 L
+146103 77000 146103 77500 400 L
+146103 77500 148603 80000 400 L
+148603 77000 148603 81000 400 L
+149804 77500 150304 77000 400 L
+150304 77000 151804 77000 400 L
+151804 77000 152304 77500 400 L
+152304 77500 152304 78500 400 L
+149804 81000 152304 78500 400 L
+149804 81000 152304 81000 400 L
+29000 12000 29000 52000 1000 L
+31000 12000 31000 52000 1000 L
+1000 12000 1000 52000 1000 L
+1000 52000 31000 52000 1000 L
+1000 12000 31000 12000 1000 L
+6500 11000 8000 11000 400 L
+6000 10500 6500 11000 400 L
+6000 7500 6000 10500 400 L
+6000 7500 6500 7000 400 L
+6500 7000 8000 7000 400 L
+9201 7500 9201 10500 400 L
+9201 7500 9701 7000 400 L
+9701 7000 10701 7000 400 L
+10701 7000 11201 7500 400 L
+11201 7500 11201 10500 400 L
+10701 11000 11201 10500 400 L
+9701 11000 10701 11000 400 L
+9201 10500 9701 11000 400 L
+12402 7000 12402 11000 400 L
+12402 7000 12402 7500 400 L
+12402 7500 14902 10000 400 L
+14902 7000 14902 11000 400 L
+16103 7000 16103 11000 400 L
+16103 7000 16103 7500 400 L
+16103 7500 18603 10000 400 L
+18603 7000 18603 11000 400 L
+20304 11000 21304 11000 400 L
+20804 7000 20804 11000 400 L
+19804 8000 20804 7000 400 L
+88000 66000 108000 66000 2000 L
+108000 66000 108000 76000 2000 L
+88000 76000 108000 76000 2000 L
+88000 66000 88000 76000 2000 L
+78000 71000 88000 71000 2000 L
+108000 71000 118000 71000 2000 L
+90000 69000 92000 69000 400 L
+92000 69000 92500 69500 400 L
+92500 69500 92500 70500 400 L
+92000 71000 92500 70500 400 L
+90500 71000 92000 71000 400 L
+90500 69000 90500 73000 400 L
+90500 71000 92500 73000 400 L
+94201 73000 95201 73000 400 L
+94701 69000 94701 73000 400 L
+93701 70000 94701 69000 400 L
+grestore
+% PCBENDDATA --- do not remove ---
+%%EOF
